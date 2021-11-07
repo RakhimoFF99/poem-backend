@@ -38,9 +38,10 @@ function createCategories (categories, parentId = null){
 }
 
 exports.get = async (req,res)=>{
-    const cc = await Category.find()
+    const cc = await Category.find({type:null})
         .populate('parentId')
     res.send(cc)
+   
 }
 exports.getCategory = async (req, res) => {
     await Category.find({})
@@ -61,6 +62,7 @@ exports.editCategory = async (req,res)=>{
 }
 
 exports.getCategoryByParentId = async (req,res) => {
+    
    try {
        const category = await Category.find({parentId:req.params.id})
        if(category) {

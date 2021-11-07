@@ -20,7 +20,7 @@ exports.add = async (req,res) => {
 }
 exports.getPoemById = async (req,res) => {
     try {
-        const poem = await Poem.find({categoryId:req.params.id})
+        const poem = await Poem.find({categoryId:req.params.id}).populate('categoryId')
         if(poem) {
             res.status(200).json({
                 success:true,
@@ -37,7 +37,7 @@ exports.getPoemById = async (req,res) => {
 }
 exports.getAllPoem  = async (req,res) => {
     try {
-        const poem = await Poem.find({})
+        const poem = await Poem.find({}).populate('categoryId')
         if(poem) {
             res.status(200).json({
                 success:false,
@@ -53,4 +53,38 @@ exports.getAllPoem  = async (req,res) => {
         })
     }
 }
+exports.updatePoemById = async (req,res) => {
+    try {
+        const poem = await Poem.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true})
+        if(poem) {
+            res.status(200).json({
+                success:true,
+                data:poem
+            })
+        }
+    }
+    catch(e) {
+        res.status(400).json({
+            success:false,
+            message:e
+        })
+    }
+}
 
+exports.deletePoemById = async (req,res) => {
+    try {
+        const poem = await Poem.findByIdAndDelete(req.params.id)
+        if(poem) {
+            res.status(200).json({
+                success:true,
+                data:poem
+            })
+        }
+    }
+    catch(e) {
+        res.status(400).json({
+            success:false,
+            message:e
+        })
+    }
+}
