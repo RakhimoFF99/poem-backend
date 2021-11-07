@@ -3,6 +3,7 @@ const  db  = require('./db/db')
 const app = express()
 app.use(express.json())
 app.use(require('./routes/categoryRoute'))
+app.use(require('./routes/poemRoute'))
 
 const Port  = process.env.PORT || 5200
 

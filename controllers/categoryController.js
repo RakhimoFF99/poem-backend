@@ -60,17 +60,26 @@ exports.editCategory = async (req,res)=>{
     })
 }
 
+exports.getCategoryByParentId = async (req,res) => {
+   try {
+       const category = await Category.find({parentId:req.params.id})
+       if(category) {
+           res.status(200).json({
+               success:true,
+               data:category
+           })
+       }
+   }
+   catch(e) {
+       res.status(400).json({
+           success:false,
+           message:e
+       })
+   }
+} 
+    
+
+
 
     
 
-exports.editNum = async (req,res) => {
-    const category = await Category.findByIdAndUpdate({_id: req.params.id})
-    category.num = req.body.num
-    await category.save({validateBeforeSave: false})
-        .then(()=>{
-            res.status(200).json({success: true})
-        })
-        .catch((e)=>{
-            res.send(e)
-        })
-}
