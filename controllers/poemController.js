@@ -18,9 +18,28 @@ exports.add = async (req,res) => {
         })
     }
 }
-exports.getPoemById = async (req,res) => {
+exports.getPoemByCategoryId = async (req,res) => {
     try {
         const poem = await Poem.find({categoryId:req.params.id}).populate('categoryId')
+        if(poem) {
+            res.status(200).json({
+                success:true,
+                data:poem
+            })
+        }
+    }
+    catch(e) {
+        res.status(400).json({
+            success:false,
+            message:e
+        })
+    }
+}
+
+
+exports.getPoemById = async (req,res) => {
+    try {
+        const poem = await Poem.findById(req.params.id).populate('categoryId')
         if(poem) {
             res.status(200).json({
                 success:true,
